@@ -1,6 +1,9 @@
 import React from 'react'
 import './task2.css'
 import { useState } from 'react'
+import { MdModeEdit } from "react-icons/md";
+import { IoMdAdd } from "react-icons/io";
+import { MdExpandMore } from "react-icons/md";
 
 function Task2() {
     const [modelIsopen, setModelIsOpen] = useState(false)
@@ -58,12 +61,16 @@ function Task2() {
     }
     //addExperience               
     const addEmployee = () => {
-        const addEmp = [...addExperience, []]
+        const addEmp = [...addExperience, {company:'',experience:'',startDate:'',endDate:''}]
         setExperience(addEmp)
     }
-    const handleExperience = () => {
-
+    const handleExperience = (change, i) => {
+        const update = [...addExperience]
+        update[i] = [change.target.value]
+        setExperience(update)
+      
     }
+    console.log(addExperience)
     return (
         <div>
             <div><h2 style={{ color: "green", paddingTop: "7px", paddingBottom: '5px' }}>Welcome
@@ -74,6 +81,7 @@ function Task2() {
             </div>
             <div className='add-button'><button id='add' onClick={openModel}>AddEmployee</button>
             </div>
+            <div  className='table-wrapper'>
             <table>
                 <thead>
                     <tr>
@@ -97,19 +105,20 @@ function Task2() {
                                 <td>{row.gender}</td>
                                 <td>{row.role}</td>
                                 <td style={{ textAlign: "center" }}><button id='edit-btn'
-                                    onClick={() => { handleEdit(row) }}>Edit</button></td>
+                                    onClick={() => { handleEdit(row) }}>Edit<MdModeEdit style={{ width: '50%' }} /></button></td>
                             </tr>
                         )
                     })}
                 </tbody>
             </table>
+            </div>
             {modelIsopen && (<div className='model-wrapper'>
                 <div className='model'>
                     <button id='x' onClick={closeModel} >x</button>
                     <form onSubmit={handleSubmit} >
                         <div>
                             <div id='title'><h4>Employee details</h4>
-                                <span onClick={() => setIsVisible(!isVisible)}>+</span></div>
+                                <span onClick={() => setIsVisible(!isVisible)}><MdExpandMore style={{ width: '130%', height: '70%', paddingRight: '7px' }} /></span></div>
                             {isVisible && <div>
                                 <div className='form'>
                                     <label>Emp Id</label>
@@ -154,7 +163,7 @@ function Task2() {
                         <div className='accordion-wrapper'>
                             <div >
                                 <div className='title1'><h4>Add Experience </h4>
-                                    <span onClick={addEmployee}>+</span>
+                                    <span onClick={addEmployee}><IoMdAdd style={{ width: '100%', height: '100%', paddingRight: '7px' }} /></span>
                                 </div>{
                                     addExperience.map((data, i) => {
                                         return (
@@ -163,11 +172,13 @@ function Task2() {
                                                 <div className='company' >
                                                     {/* style={{ display: 'flex', paddingBottom: '30px', paddingTop: '10px' }} */}
                                                     <label>Company
-                                                        <input type='text' style={{ height: '40%', width: '70%' }}
+                                                        <input type='text' name="company" value={addExperience.company}
+                                                            style={{ height: '40%', width: '70%' }}
                                                             onChange={(e) => { handleExperience(e, i) }} />
                                                     </label>
                                                     <label>experience
-                                                        <select className='acccordion' style={{ width: '100%' }}
+                                                        <select className='acccordion' name="experience" value={addExperience.experience}
+                                                            style={{ width: '100%' }}
                                                             onChange={(e) => { handleExperience(e, i) }}>
                                                             <option>Fresher</option>
                                                             <option>1 year</option>
@@ -179,12 +190,14 @@ function Task2() {
                                                 </div>
                                                 <div className='company'>
                                                     <lable>Start Date
-                                                        <input type='date' className='acccordion' style={{ width: '80%', height: '40%' }}
+                                                        <input type='date' name="startDate" value={addExperience.startDate}
+                                                            className='acccordion' style={{ width: '80%', height: '40%' }}
                                                             onChange={(e) => { handleExperience(e, i) }} />
                                                     </lable>
 
                                                     <label>End Date
-                                                        <input type='date' className='acccordion' style={{ width: '80%', height: '40%' }}
+                                                        <input type='date' name='endDate' value={addExperience.endDate}
+                                                            className='acccordion' style={{ width: '80%', height: '40%' }}
                                                             onChange={(e) => { handleExperience(e, i) }} />
                                                     </label>
 
