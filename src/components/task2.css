@@ -63,7 +63,7 @@ form.select {
 th,
 td {
     border: 1px solid black;
-    padding: 10px;
+    padding: 4px;
 
 }
 
@@ -90,7 +90,8 @@ table {
     table-layout: fixed;
     table-layout: auto;
     margin: 0px auto;
-
+    border-collapse: collapse;
+    box-shadow: 0px 10px 10px #ddd;
 }
 
 .table th {
@@ -98,11 +99,15 @@ table {
     font-weight: 0%;
 
 }
+td {
+    text-align: center;
+    cursor: pointer;
+}
 
 th,
 td {
     border: 1px solid black;
-    padding: 8px;
+    /* padding: 8px; */
 }
 
 tr:hover {

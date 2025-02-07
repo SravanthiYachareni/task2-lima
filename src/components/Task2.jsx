@@ -38,7 +38,8 @@ function Task2() {
                 item.id === editId ? { ...employee, id: editId } : item)
             setList(updatedList)
             setEditId(null)
-        } else {
+        }
+        else {
             const array = { ...employee, id: Date.now() };
             setList([...list, array]);
         }
@@ -61,14 +62,15 @@ function Task2() {
     }
     //addExperience               
     const addEmployee = () => {
-        const addEmp = [...addExperience, {company:'',experience:'',startDate:'',endDate:''}]
+        const addEmp = [...addExperience, { company: '', experience: '', startDate: '', endDate: '' }]
         setExperience(addEmp)
     }
-    const handleExperience = (change, i) => {
-        const update = [...addExperience]
-        update[i] = [change.target.value]
-        setExperience(update)
-      
+    const handleExperience = (e, i) => {
+        const { name, value } = e.target
+        const updateExperience = [...addExperience]
+        updateExperience[i] = { ...updateExperience[i], [name]: [value] }
+        setExperience(updateExperience)
+
     }
     console.log(addExperience)
     return (
@@ -81,36 +83,39 @@ function Task2() {
             </div>
             <div className='add-button'><button id='add' onClick={openModel}>AddEmployee</button>
             </div>
-            <div  className='table-wrapper'>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Emp id</td>
-                        <td>Firstname</td>
-                        <td>Lastname</td>
-                        <td>Email</td>
-                        <td>Gender</td>
-                        <td>Role</td>
-                        <td style={{ textAlign: "center" }}>Update</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {list.map((row, index) => {
-                        return (
-                            <tr key={index}>
-                                <td>{row.empId}</td>
-                                <td>{row.firstname}</td>
-                                <td>{row.lastname}</td>
-                                <td>{row.email}</td>
-                                <td>{row.gender}</td>
-                                <td>{row.role}</td>
-                                <td style={{ textAlign: "center" }}><button id='edit-btn'
-                                    onClick={() => { handleEdit(row) }}>Edit<MdModeEdit style={{ width: '50%' }} /></button></td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+            <div className='table-wrapper'>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Emp id</td>
+                            <td>Firstname</td>
+                            <td>Lastname</td>
+                            <td>Email</td>
+                            <td>Gender</td>
+                            <td>Role</td>
+                            <td style={{ textAlign: "center" }}>Update</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {list.map((row, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td>{row.empId}</td>
+                                    <td>{row.firstname}</td>
+                                    <td>{row.lastname}</td>
+                                    <td>{row.email}</td>
+                                    <td>{row.gender}</td>
+                                    <td>{row.role}</td>
+                                    <td style={{ textAlign: "center" }}>
+                                        <button id='edit-btn'
+                                            onClick={() => { handleEdit(row) }}>Edit<MdModeEdit style={{ width: '30%' }} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
             </div>
             {modelIsopen && (<div className='model-wrapper'>
                 <div className='model'>
@@ -118,7 +123,10 @@ function Task2() {
                     <form onSubmit={handleSubmit} >
                         <div>
                             <div id='title'><h4>Employee details</h4>
-                                <span onClick={() => setIsVisible(!isVisible)}><MdExpandMore style={{ width: '130%', height: '70%', paddingRight: '7px' }} /></span></div>
+                                <span onClick={() => setIsVisible(!isVisible)}>
+                                    <MdExpandMore style={{
+                                        width: '130%', height: '70%', paddingRight: '7px'
+                                    }} /></span></div>
                             {isVisible && <div>
                                 <div className='form'>
                                     <label>Emp Id</label>
@@ -163,21 +171,21 @@ function Task2() {
                         <div className='accordion-wrapper'>
                             <div >
                                 <div className='title1'><h4>Add Experience </h4>
-                                    <span onClick={addEmployee}><IoMdAdd style={{ width: '100%', height: '100%', paddingRight: '7px' }} /></span>
+                                    <span onClick={addEmployee}><IoMdAdd style={{ width: '100%', height: '100%', paddingRight: '7px' }} />
+                                    </span>
                                 </div>{
                                     addExperience.map((data, i) => {
                                         return (
 
                                             <div className='experience'>
                                                 <div className='company' >
-                                                    {/* style={{ display: 'flex', paddingBottom: '30px', paddingTop: '10px' }} */}
                                                     <label>Company
-                                                        <input type='text' name="company" value={addExperience.company}
+                                                        <input type='text' name="company" value={data.company}
                                                             style={{ height: '40%', width: '70%' }}
                                                             onChange={(e) => { handleExperience(e, i) }} />
                                                     </label>
                                                     <label>experience
-                                                        <select className='acccordion' name="experience" value={addExperience.experience}
+                                                        <select className='acccordion' name="experience" value={data.experience}
                                                             style={{ width: '100%' }}
                                                             onChange={(e) => { handleExperience(e, i) }}>
                                                             <option>Fresher</option>
@@ -190,17 +198,16 @@ function Task2() {
                                                 </div>
                                                 <div className='company'>
                                                     <lable>Start Date
-                                                        <input type='date' name="startDate" value={addExperience.startDate}
+                                                        <input type='date' name="startDate" value={data.startDate}
                                                             className='acccordion' style={{ width: '80%', height: '40%' }}
                                                             onChange={(e) => { handleExperience(e, i) }} />
                                                     </lable>
 
                                                     <label>End Date
-                                                        <input type='date' name='endDate' value={addExperience.endDate}
+                                                        <input type='date' name='endDate' value={data.endDate}
                                                             className='acccordion' style={{ width: '80%', height: '40%' }}
                                                             onChange={(e) => { handleExperience(e, i) }} />
                                                     </label>
-
                                                 </div>
                                             </div>
                                         )
